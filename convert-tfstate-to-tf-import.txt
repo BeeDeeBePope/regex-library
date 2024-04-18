@@ -1,0 +1,7 @@
+# You can use this in VSC find and replace to convert a Terraform state file into a Terraform config to import exisitng resources
+# Found it useful during exporting exisitng infra into Terraform. When I created the configuration for Dev stage with aztfexport ( https://github.com/Azure/aztfexport )
+# I needed to also import the infra from QA and Prod and found it easier to get the Import statements this way instead of reruning the aztfexport
+# What is left after conversion is to check if names match and change the subscriptionId if it is different indeed
+
+Match pattern: ^# (.+):\n^resource.+\n(^.+\n)*?(^\s+id\s+= )(".*")\n(^.*\n)*?^\}
+Replace: import {\n\tto = $1\n\tid = $4\n}
